@@ -25,7 +25,7 @@ class test_add_group(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.open_groups_page(wd)
-        self.create_group(wd, Group(name="first", header="headertext", footer="footertext"))
+        self.create_group(wd, Group(name="my_group", header="headertext", footer="footertext"))
         self.return_to_groups_page(wd)
         self.logout(success, wd)
 
@@ -39,13 +39,6 @@ class test_add_group(unittest.TestCase):
         self.create_group(wd, Group(name="", header="", footer=""))
         self.return_to_groups_page(wd)
         self.logout(success, wd)
-
-    def logout(self, success, wd):
-        wd.find_element_by_link_text("Logout").click()
-        self.assertTrue(success)
-
-    def return_to_groups_page(self, wd):
-        wd.find_element_by_link_text("group page").click()
 
     def create_group(self, wd, group):
         # создание новой группы
@@ -63,9 +56,6 @@ class test_add_group(unittest.TestCase):
         #подтверждаем создание группы
         wd.find_element_by_name("submit").click()
 
-    def open_groups_page(self, wd):
-        wd.find_element_by_link_text("groups").click()
-
     def login(self, wd, username, password):
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
@@ -75,8 +65,18 @@ class test_add_group(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
 
+    def logout(self, success, wd):
+        wd.find_element_by_link_text("Logout").click()
+        self.assertTrue(success)
+
     def open_home_page(self, wd):
         wd.get("http://localhost/addressbook/")
+
+    def open_groups_page(self, wd):
+        wd.find_element_by_link_text("groups").click()
+
+    def return_to_groups_page(self, wd):
+        wd.find_element_by_link_text("group page").click()
 
     def tearDown(self):
         self.wd.quit()
