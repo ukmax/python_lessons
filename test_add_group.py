@@ -11,15 +11,13 @@ def app(request):
 
     #тест1 - создание группы
 def test_add_group(app):
-    success = True
     app.login(username="admin", password="secret")
     app.create_group(Group(name="my_group", header="headertext", footer="footertext"))
-    app.logout(success)
+    app.logout()
 
     # тест2 - создание пустой группы
 def test_add_empty_group(app):
-    success = True
     app.login(username="admin", password="secret")
     app.create_group(Group(name="", header="", footer=""))
-    app.logout(success)
+    app.logout()
 
