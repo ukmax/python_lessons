@@ -22,25 +22,21 @@ class test_add_group(unittest.TestCase):
     def test_add_group(self):
         success = True
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.open_groups_page(wd)
         self.create_group(wd, Group(name="my_group", header="headertext", footer="footertext"))
-        self.return_to_groups_page(wd)
         self.logout(success, wd)
 
     # тест2 - создание пустой группы
     def test_add_empty_group(self):
         success = True
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.open_groups_page(wd)
         self.create_group(wd, Group(name="", header="", footer=""))
-        self.return_to_groups_page(wd)
         self.logout(success, wd)
 
     def create_group(self, wd, group):
+        #открываем страницу со списком групп
+        self.open_groups_page(wd)
         # создание новой группы
         wd.find_element_by_name("new").click()
         # заполняем поля формы
@@ -55,8 +51,11 @@ class test_add_group(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         #подтверждаем создание группы
         wd.find_element_by_name("submit").click()
+        #возвращаемся к списку групп
+        self.return_to_groups_page(wd)
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
