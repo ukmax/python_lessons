@@ -26,7 +26,7 @@ class GroupHelper:
         # возвращаемся к списку групп
         self.return_to_groups_page()
 
-    def edit_first_group(self, edit_group):
+    def modify_first_group(self, edit_group):
         wd = self.app.wd
         # открываем страницу со списком групп
         self.open_groups_page()

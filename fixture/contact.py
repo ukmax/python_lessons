@@ -43,7 +43,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
 
-    def edit_first_contact (self, edit_contact):
+    def modify_first_contact (self, edit_contact):
         wd = self.app.wd
         #нажимаем кнопку редактирования
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
