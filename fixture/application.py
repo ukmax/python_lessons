@@ -21,3 +21,11 @@ class Application():
         wd = self.wd
         wd.get("http://localhost/addressbook/")
 
+    def is_valid(self):
+        try:
+            self.wd.current_url
+            return True
+        except:
+            return False
+
+
