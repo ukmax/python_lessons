@@ -4,7 +4,7 @@ from random import randrange
 
 
 # тест - удаление группы
-def test_delete_first_group(app):
+def test_delete_some_group(app):
     if app.group.count() == 0:
         app.group.create(Group(name="test"))
     old_groups = app.group.get_group_list()
