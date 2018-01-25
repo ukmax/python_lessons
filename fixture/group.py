@@ -31,11 +31,14 @@ class GroupHelper:
             wd.find_element_by_name(field_name).send_keys(text)
 
     def modify_first_group(self, new_group_data):
+        self.modify_group_by_index(0, new_group_data)
+
+    def modify_group_by_index(self, index, new_group_data):
         wd = self.app.wd
         # открываем страницу со списком групп
         self.open_groups_page()
         #выбираем первую группу
-        self.select_first_group()
+        self.select_group_by_index(index)
         # нажимаем кнопку Edit
         wd.find_element_by_name("edit").click()
         # заполняем поля формы новыми значениями
