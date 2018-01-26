@@ -29,14 +29,15 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
-    def modify_first_contact (self, new_contact_data):
+    def modify_first_contact (self, new_contact_data, index):
         wd = self.app.wd
         self.app.open_home_page()
-        #нажимаем кнопку редактирования
-        wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        self.select_contact_by_index(index)
+        # нажимаем кнопку редактирования
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         # заполнение основных полей нового контакта
         self.fill_contact_form(new_contact_data)
-        #нажимаем кнопку update
+        # нажимаем кнопку update
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
         self.contact_cache = None
 
