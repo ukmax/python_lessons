@@ -21,7 +21,7 @@ class ContactHelper:
         wd = self.app.wd
         self.app.open_home_page()
         self.select_contact_by_index(index)
-        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.find_element_by_css_selector('input[value="Delete"]').click()
         wd.switch_to_alert().accept()
         self.contact_cache = None
 
