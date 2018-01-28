@@ -123,9 +123,30 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contact_view_by_index(index)
         text = wd.find_element_by_id("content").text
-        home = re.search("H: (.*)", text).group(1)
-        mobile = re.search("M: (.*)", text).group(1)
-        work = re.search("W: (.*)", text).group(1)
-        phone2 = re.search("P: (.*)", text).group(1)
-        return Contact(home=home, mobile=mobile, work=work, phone2=phone2)
+        #если не нашлась строка на view page, то присваиваем номеру пустую строку,
+        # т.к. wd из формы edit прочитает пустые поля, как пустые строки
+        home_search = re.search("H: (.*)", text)
+        if home_search is None:
+            home = ""
+        else:
+            home = home_search.group(1)
 
+        mobile_search = re.search("M: (.*)", text)
+        if mobile_search is None:
+            mobile = ""
+        else:
+            mobile = mobile_search.group(1)
+
+        work_search = re.search("W: (.*)", text)
+        if work_search is None:
+            work = ""
+        else:
+            work = work_search.group(1)
+
+        phone2_search = re.search("P: (.*)", text)
+        if phone2_search is None:
+            phone2 = ""
+        else:
+            phone2 = phone2_search.group(1)
+
+        return Contact(home=home, mobile=mobile, work=work, phone2=phone2)
