@@ -7,13 +7,14 @@ from random import randrange
 def test_modify_some_contact_firstname(app):
     # если нет ни одного контакта - создаем новый
     if app.contact.count() == 0:
-        app.contact.create_contact(Contact(firstname="F0", lastname="L0"))
+        app.contact.create_contact(Contact(lastname="L0", firstname="F0", address="SPB", email="some_email",
+                                           home="111", mobile="222", work="333", phone2="444"))
     old_contacts = app.contact.get_contact_list()
     # выбираем случайную запись
     index = randrange(len(old_contacts))
     # запоминаем какой id был у контакта, который будем изменять и передаем его в контакт, которым будем перезаписывать
     cont = Contact(firstname="new_name", id=old_contacts[index].id)
-    app.contact.modify_first_contact(cont, index)
+    app.contact.modify_contact_by_index(cont, index)
     new_contacts = app.contact.get_contact_list()
     assert len(old_contacts) == len(new_contacts)
     # перезаписываем из кода
