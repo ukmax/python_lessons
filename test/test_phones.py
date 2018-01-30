@@ -4,8 +4,12 @@ import re
 def test_phones_on_home_page(app):
     contact_from_home_page = app.contact.get_contact_list()[0]
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
+    assert contact_from_home_page.lastname == contact_from_edit_page.lastname
+    assert contact_from_home_page.firstname == contact_from_edit_page.firstname
+    assert contact_from_home_page.address == contact_from_edit_page.address
     # сравниваем склееный список телефонов с главной и список с формы редактирования, который сами почистили и склеили
     assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_edit_page)
+    assert contact_from_home_page.all_emails_from_home_page == merge_emails_like_on_home_page(contact_from_edit_page)
 
 
 def test_phones_on_contact_view_page(app):
@@ -29,6 +33,20 @@ def merge_phones_like_on_home_page(contact):
     # то, что осталось от фильтрации склеивается при помощи перевода строки
     phones_joined = "\n".join(phones4)
     return phones_joined
+
+
+def merge_emails_like_on_home_page(contact):
+    # берем все значения номеров из контакта
+    emails = [contact.email, contact.email2, contact.email3]
+    # выкидываем из прочитанных полей пустые значения
+    emails2 = filter(lambda x: x is not None, emails)
+    # к оставшимся элементам применяем clear(), которая удаляет лишние символы, не отображающиеся в таблице)
+    emails3 = map(lambda x: clear(x), emails2)
+    # выкидываем пустые строки, которые могли возникнуть в результате очистки
+    emails4 = filter(lambda x: x != "", emails3)
+    # то, что осталось от фильтрации склеивается при помощи перевода строки
+    emails_joined = "\n".join(emails4)
+    return emails_joined
 
 
 # чистим строку от "плохих" символов
