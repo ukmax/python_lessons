@@ -23,29 +23,25 @@ def test_phones_on_contact_view_page(app):
 
 def merge_phones_like_on_home_page(contact):
     # берем все значения номеров из контакта
-    phones = [contact.home, contact.mobile, contact.work, contact.phone2]
+    step1 = [contact.home, contact.mobile, contact.work, contact.phone2]
     # выкидываем из прочитанных полей пустые значения
-    phones2 = filter(lambda x: x is not None, phones)
+    step2 = filter(lambda x: x is not None, step1)
     # к оставшимся элементам применяем clear(), которая удаляет лишние символы, не отображающиеся в таблице)
-    phones3 = map(lambda x: clear(x), phones2)
+    step3 = map(lambda x: clear(x), step2)
     # выкидываем пустые строки, которые могли возникнуть в результате очистки
-    phones4 = filter(lambda x: x != "", phones3)
+    step4 = filter(lambda x: x != "", step3)
     # то, что осталось от фильтрации склеивается при помощи перевода строки
-    phones_joined = "\n".join(phones4)
+    phones_joined = "\n".join(step4)
     return phones_joined
 
 
 def merge_emails_like_on_home_page(contact):
     # берем все значения номеров из контакта
-    emails = [contact.email, contact.email2, contact.email3]
+    step1 = [contact.email, contact.email2, contact.email3]
     # выкидываем из прочитанных полей пустые значения
-    emails2 = filter(lambda x: x is not None, emails)
-    # к оставшимся элементам применяем clear(), которая удаляет лишние символы, не отображающиеся в таблице)
-    emails3 = map(lambda x: clear(x), emails2)
-    # выкидываем пустые строки, которые могли возникнуть в результате очистки
-    emails4 = filter(lambda x: x != "", emails3)
+    step2 = filter(lambda x: x is not None, step1)
     # то, что осталось от фильтрации склеивается при помощи перевода строки
-    emails_joined = "\n".join(emails4)
+    emails_joined = "\n".join(step2)
     return emails_joined
 
 
