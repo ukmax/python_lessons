@@ -4,6 +4,7 @@ from model.contact import Contact
 
 
 def test_phones_on_home_page(app):
+    app.open_home_page()
     contact_length = app.contact.count()
     if contact_length == 0:
         app.contact.create_contact(Contact(lastname="LL", firstname="FF", address="aa", email="q@w.e", home="111"))

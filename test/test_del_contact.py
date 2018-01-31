@@ -5,6 +5,7 @@ from random import randrange
 
 # тест - удаляем контакт
 def test_del_some_contact(app):
+    app.open_home_page()
     if app.contact.count() == 0:
         app.contact.create_contact(Contact(firstname="Alex", middlename="Serge", lastname="Pushkin"))
     old_contacts = app.contact.get_contact_list()
