@@ -1,9 +1,16 @@
 import re
+from random import randrange
+from model.contact import Contact
 
 
 def test_phones_on_home_page(app):
-    contact_from_home_page = app.contact.get_contact_list()[0]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
+    contact_length = app.contact.count()
+    if contact_length == 0:
+        app.contact.create_contact(Contact(lastname="LL", firstname="FF", address="aa", email="q@w.e", home="111"))
+    index = randrange(contact_length)
+    print('\nindex= '+str(index))
+    contact_from_home_page = app.contact.get_contact_list()[index]
+    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
     assert contact_from_home_page.lastname == contact_from_edit_page.lastname
     assert contact_from_home_page.firstname == contact_from_edit_page.firstname
     assert contact_from_home_page.address == contact_from_edit_page.address
@@ -39,8 +46,9 @@ def merge_emails_like_on_home_page(contact):
     # берем все значения номеров из контакта
     step1 = [contact.email, contact.email2, contact.email3]
     # выкидываем из прочитанных полей пустые значения
-    step2 = filter(lambda x: x is not None, step1)
-    # то, что осталось от фильтрации склеивается при помощи перевода строки
+    step2 = filter(lambda x: x != "", step1)
+    # строка ниже приводит к тому, что emails_joined = "" (пустой строке)
+    #qqq = list(step2)
     emails_joined = "\n".join(step2)
     return emails_joined
 
