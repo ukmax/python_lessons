@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 #from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium import webdriver
-from fixture.session import SessionHelper
-from fixture.group import GroupHelper
-from fixture.contact import ContactHelper
+from python_lessons.fixture.session import SessionHelper
+from python_lessons.fixture.group import GroupHelper
+from python_lessons.fixture.contact import ContactHelper
 
 
 class Application():

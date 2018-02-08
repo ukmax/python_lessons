@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from model.contact import Contact
+from python_lessons.model.contact import Contact
 import pytest
 import random
 import string
