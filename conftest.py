@@ -42,13 +42,13 @@ def pytest_addoption(parser):
     parser.addoption("--target", action="store", default="target.json")
 
 
-# def pytest_generate_tests(metafunc):
-#     for fixture in metafunc.fixturenames:
-#         if fixture.startwith("data_"):
-#             # отрезаем первые 5 символов data__
-#             testdata = load_from_module(fixture[5:])
-#             metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
-#
-#
-# def load_from_module(module):
-#     return importlib.import_module("data.%s" % module).testdata
+def pytest_generate_tests(metafunc):
+    for fixture in metafunc.fixturenames:
+        if fixture.startswith("data_"):
+            # отрезаем первые 5 символов data__
+            testdata = load_from_module(fixture[5:])
+            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+
+
+def load_from_module(module):
+    return importlib.import_module("data.%s" % module).testdata
