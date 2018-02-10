@@ -2,6 +2,7 @@
 import pytest
 from python_lessons.fixture.application import Application
 import json
+import jsonpickle
 import os
 import os.path
 import importlib
@@ -48,7 +49,16 @@ def pytest_generate_tests(metafunc):
             # отрезаем первые 5 символов data__
             testdata = load_from_module(fixture[5:])
             metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+        elif fixture.startswith("json_"):
+            # отрезаем первые 5 символов json__
+            testdata = load_from_json(fixture[5:])
+            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
 
 
 def load_from_module(module):
     return importlib.import_module("data.%s" % module).testdata
+
+
+def load_from_json(file):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/%s.json" % file)) as f:
+        return jsonpickle.decode(f.read())
