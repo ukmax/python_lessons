@@ -12,7 +12,7 @@ class DbFixture:
         self.password = password
         self.connection = pymysql.connect(host=host, database=name, user=user, password=password)
         #  self.connection = mysql.connector.connect(host=host, database=name, user=user, password=password)
-        self.connection.autocommit = True
+        self.connection.autocommit(True)
 
     def destroy(self):
         self.connection.close()
