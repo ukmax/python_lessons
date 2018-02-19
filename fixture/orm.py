@@ -20,7 +20,8 @@ class ORMFixture:
         id = PrimaryKey(int, column='id')
         lastname = Optional(str, column='lastname')
         firstname = Optional(str, column='firstname')
-        deprecated = Optional(datetime, column='deprecated')
+        #маппинг на str, т.к. из БД почему-то получаем str, а не datetime
+        deprecated = Optional(str, column='deprecated')
 
     def __init__(self, host, name, user, password):
         # при использовании Pony данные из БД могут преобразовываться для использования в объектах
