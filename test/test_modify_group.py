@@ -1,25 +1,21 @@
 # -*- coding: utf-8 -*-
-from model.group import Group
-from random import randrange
+import random
+from python_lessons.model.group import Group
 
 
 # тест - редактируем имя в группе
-def test_modify_some_group_name(app):
-    if app.group.count() == 0:
+def test_modify_some_group_name(app, db):
+    if len(db.get_group_list()) == 0:
         app.group.create(Group(name="test"))
-    old_groups = app.group.get_group_list()
-    index = randrange(len(old_groups))
-    group = Group(name="new name")
-    group.id = old_groups[index].id
-    app.group.modify_group_by_index(index, group)
-    new_groups = app.group.get_group_list()
+    old_groups = db.get_group_list()
+    # выбираем случайную, группу, которую будем редактировать
+    group = random.choice(old_groups)
+    # подготавливаем новые данные с id группы, которую будем редактировать
+    new_data = Group(id=group.id, name="new name")
+    # перезаписываем группу с использованием старого id
+    app.group.modify_group_by_id(group.id, new_data)
+    new_groups = db.get_group_list()
     assert len(old_groups) == len(new_groups)
-    old_groups[index] = group
+    old_groups.remove(group)
+    old_groups.append(new_data)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
-
-
-# тест - редактируем хедер в группе
-# def test_modify_group_header(app):
-#     if app.group.count() == 0:
-#         app.group.create(Group(header="test"))
-#     app.group.modify_first_group(Group(header="new header"))

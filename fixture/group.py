@@ -1,5 +1,6 @@
 from python_lessons.model.group import Group
 
+
 class GroupHelper:
 
     def __init__(self, app):
@@ -37,19 +38,25 @@ class GroupHelper:
         wd = self.app.wd
         self.open_groups_page()
         self.select_group_by_index(index)
-        # нажимаем кнопку Edit
         wd.find_element_by_name("edit").click()
-        # заполняем поля формы новыми значениями
         self.fill_group_form(new_group_data)
-        # подтверждаем изменение группы
         wd.find_element_by_name("update").click()
-        # возвращаемся к списку групп
+        self.return_to_groups_page()
+        self.group_cache = None
+
+    def modify_group_by_id(self, id, new_group_data):
+        wd = self.app.wd
+        self.open_groups_page()
+        self.select_group_by_id(id)
+        wd.find_element_by_name("edit").click()
+        self.fill_group_form(new_group_data)
+        wd.find_element_by_name("update").click()
         self.return_to_groups_page()
         self.group_cache = None
 
     def open_groups_page(self):
         wd = self.app.wd
-        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new"))>0):
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
             wd.find_element_by_link_text("groups").click()
 
     def return_to_groups_page(self):
@@ -105,5 +112,3 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, id=id))
         return list(self.group_cache)
-
-
