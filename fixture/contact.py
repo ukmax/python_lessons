@@ -42,7 +42,6 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
-
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         self.app.open_home_page()
@@ -57,12 +56,24 @@ class ContactHelper:
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
 
-    def modify_contact_by_index (self, new_contact_data, index):
+    def modify_contact_by_index(self, new_contact_data, index):
         wd = self.app.wd
         self.app.open_home_page()
         self.select_contact_by_index(index)
         # нажимаем кнопку редактирования
         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+        # заполнение основных полей нового контакта
+        self.fill_contact_form(new_contact_data)
+        # нажимаем кнопку update
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+        self.contact_cache = None
+
+    def modify_contact_by_id(self, new_contact_data, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.select_contact_by_id(id)
+        # нажимаем кнопку редактирования
+        wd.find_element_by_css_selector("a[href='edit.php?id=%s']" % id).click()
         # заполнение основных полей нового контакта
         self.fill_contact_form(new_contact_data)
         # нажимаем кнопку update
@@ -144,7 +155,7 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contact_view_by_index(index)
         text = wd.find_element_by_id("content").text
-        #если не нашлась строка на view page, то присваиваем номеру пустую строку,
+        # если не нашлась строка на view page, то присваиваем номеру пустую строку,
         # т.к. wd из формы edit прочитает пустые поля, как пустые строки
         home_search = re.search("H: (.*)", text)
         if home_search is None:

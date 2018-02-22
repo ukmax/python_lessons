@@ -8,7 +8,7 @@ def test_modify_some_group_name(app, db):
     if len(db.get_group_list()) == 0:
         app.group.create(Group(name="test"))
     old_groups = db.get_group_list()
-    # выбираем случайную, группу, которую будем редактировать
+    # выбираем случайную группу, которую будем редактировать
     group = random.choice(old_groups)
     # подготавливаем новые данные с id группы, которую будем редактировать
     new_data = Group(id=group.id, name="new name")
