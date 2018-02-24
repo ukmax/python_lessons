@@ -3,13 +3,26 @@ from random import randrange
 from model.contact import Contact
 
 
+# сравнение контактов на homepage и в db
+def test_phones_on_db(app, db):
+    app.open_home_page()
+    if (len(db.get_contact_list())) == 0:
+        app.contact.create_contact(Contact(lastname="LL", firstname="FF", address="aa", email="q@w.e", home="111"))
+    contact_from_home_page = app.contact.get_contact_list()
+    contact_from_db = db.get_contact_list()
+    sorted_contact_from_home_page = sorted(contact_from_home_page, key=Contact.id_or_max)
+    sorted_contact_from_db = sorted(contact_from_db, key=Contact.id_or_max)
+    assert sorted_contact_from_home_page == sorted_contact_from_db
+
+
+# сравнение контактов на homepage и на editpage
 def test_phones_on_home_page(app):
     app.open_home_page()
     contact_length = app.contact.count()
     if contact_length == 0:
         app.contact.create_contact(Contact(lastname="LL", firstname="FF", address="aa", email="q@w.e", home="111"))
     index = randrange(contact_length)
-    print('\nindex= '+str(index))
+    print('\nindex= ' + str(index))
     contact_from_home_page = app.contact.get_contact_list()[index]
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
     assert contact_from_home_page.lastname == contact_from_edit_page.lastname
@@ -20,6 +33,7 @@ def test_phones_on_home_page(app):
     assert contact_from_home_page.all_emails_from_home_page == merge_emails_like_on_home_page(contact_from_edit_page)
 
 
+# сравнение контактов на viewpage и на editpage
 def test_phones_on_contact_view_page(app):
     contact_from_view_page = app.contact.get_contact_from_view_page(0)
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
@@ -48,8 +62,6 @@ def merge_emails_like_on_home_page(contact):
     step1 = [contact.email, contact.email2, contact.email3]
     # выкидываем из прочитанных полей пустые значения
     step2 = filter(lambda x: x != "", step1)
-    # строка ниже приводит к тому, что emails_joined = "" (пустой строке)
-    #qqq = list(step2)
     emails_joined = "\n".join(step2)
     return emails_joined
 
