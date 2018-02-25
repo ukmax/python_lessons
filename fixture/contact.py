@@ -1,5 +1,6 @@
 from python_lessons.model.contact import Contact
 import re
+from selenium.webdriver.support.ui import Select
 
 
 class ContactHelper:
@@ -7,14 +8,16 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
-    def create_contact(self, contact):
+    def create_contact(self, contact, add_to_group=None):
         wd = self.app.wd
         self.app.open_home_page()
         # добавление нового контакта
         wd.find_element_by_link_text("add new").click()
         # заполнение основных полей нового контакта
         self.fill_contact_form(contact)
-        # подтверждение сохранения
+        if add_to_group is not None:
+            select = Select(wd.find_element_by_css_selector("select[name='new_group']"))
+            select.select_by_value(add_to_group.id)
         wd.find_element_by_name("submit").click()
         self.contact_cache = None
 

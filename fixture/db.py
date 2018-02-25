@@ -45,3 +45,16 @@ class DbFixture:
         finally:
             cursor.close()
         return list
+
+    def get_all_contact_id_list(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select id from addressbook")
+            for row in cursor:
+                # row - это tuple
+                id = row[0]
+                list.append(id)
+        finally:
+            cursor.close()
+        return list
