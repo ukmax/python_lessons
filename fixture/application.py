@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#from selenium.webdriver.firefox.webdriver import WebDriver
+# from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium import webdriver
 from python_lessons.fixture.session import SessionHelper
 from python_lessons.fixture.group import GroupHelper
@@ -29,7 +29,8 @@ class Application():
 
     def open_home_page(self):
         wd = self.wd
-        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_xpath("//div[@id='content']/form[2]/div[1]/input")) > 0):
+        if not (wd.current_url.endswith("/addressbook/") and len(
+                wd.find_elements_by_xpath("//div[@id='content']/form[2]/div[1]/input")) > 0):
             wd.get(self.base_url)
 
     def is_valid(self):
@@ -38,5 +39,3 @@ class Application():
             return True
         except:
             return False
-
-
